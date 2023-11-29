@@ -1,0 +1,17 @@
+{
+    "windows": [
+        {
+            "id": "terminal",
+            "class": "kitty",
+            "launcher": "kitty",
+            "keybind": "$mainMod,T"
+        }
+    ],
+    "keybinds": {
+        "locking": [
+            "$mainMod,L",
+            "$mainMod,mouse:274"    
+        ]
+    },
+    "hyprland_config": "~/.config/hypr/extra_keybinds.conf"
+}
