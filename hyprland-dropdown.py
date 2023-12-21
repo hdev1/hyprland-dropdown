@@ -100,10 +100,11 @@ def center_window(window):
         exec(f'hyprctl --batch "dispatch focuswindow {window}; dispatch resizewindowpixel exact 75% 75%,{window}; dispatch centerwindow;"')
 
 def tile_window(window, no_lock=False):
-    exec(f'hyprctl setprop {window} dimaround 0')
     exec(f'hyprctl dispatch centerwindow {window}')
     if not no_lock:
         exec(f'hyprctl dispatch togglefloating {window}')
+    exec(f'hyprctl setprop {window} dimaround 0')
+
 
 def lock_client(active_client_state, no_lock=False):
     window = f"address:{active_client_state['address']}"
@@ -112,7 +113,7 @@ def lock_client(active_client_state, no_lock=False):
     if active_client_state['floating']:
         tile_window(window, no_lock)
     else:
-        exec(f'hyprctl setprop {window} dimaround 1')
+        # exec(f'hyprctl setprop {window} dimaround 1')
         exec(f'hyprctl dispatch togglefloating {window}')
 
         if not no_lock:
@@ -174,7 +175,7 @@ def toggle(id, no_activate=False):
                 toggle(active_client_config['id'], no_activate=True)
 
         exec(f'hyprctl --batch "dispatch movetoworkspacesilent name:hidden,{window}; dispatch cyclenext; dispatch nodim"')
-        exec(f'hyprctl setprop {window} dimaround 1')
+        # exec(f'hyprctl setprop {window} dimaround 1')
 
 
 def reload():
@@ -187,7 +188,7 @@ def reload():
         rules.append(f"windowrulev2 = float,class:{window['class']}")
         rules.append(f"windowrulev2 = size 75% 75%,class:{window['class']}")
         rules.append(f"windowrulev2 = move 30 50, class:{window['class']}")
-        # rules.append(f"windowrulev2 = dimaround, class:{window['class']}")
+        rules.append(f"windowrulev2 = dimaround, class:{window['class']}")
         rules.append(f"windowrulev2 = center, class:{window['class']}")
     
     # Rules for locking windows
