@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(
                     prog='hyprland-dropdown',
                     description='Make anything a scratchpad on Hyprland!')
 
+parser.add_argument('-a', '--autostart',  help='auto-start applications in hidden workspace', action='store_true')
 parser.add_argument('-t', '--toggle',  help='toggle application by id')
 parser.add_argument('-l', '--lock', action='store_true', help='toggle lock active (defined) application')
 parser.add_argument('-r', '--reload', action='store_true')
@@ -199,6 +200,20 @@ def reload():
     res = '\n'.join(rules)
     open(config['hyprland_config'], "w").write(res)
 
+def autostart():
+    clients = get_clients()
+    for window in config['windows']:
+        # Check if instance is already running
+        instance_running = False
+        for client in clients:
+            if client['class'] == window['class']:
+                # Instance already running
+                instance_running = True
+                break
+        
+        if not instance_running:
+            os.system(f"hyprctl dispatch -- exec [workspace hidden silent] {window['launcher']}")
+
 if args.reload:
     reload()
 
@@ -208,3 +223,5 @@ if args.lock:
 if args.toggle:
     toggle(args.toggle)
 
+if args.autostart:
+    autostart()
